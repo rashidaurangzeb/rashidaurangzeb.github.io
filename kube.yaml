@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testkube
+  namespace: rashid-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testkube
+  template:
+    metadata:
+      labels:
+        app: testkube
+    spec:
+      containers:
+      - name: testkube
+        image: localhost:5000/rashidaurangzeb/testk8:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-kube
+spec:
+  selector:
+    app: test-kube
+  ports:
+  - port: 80
+    targetPort: 80
+  type: LoadBalancer
+
